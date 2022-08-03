@@ -16,7 +16,11 @@
 module GhcStdin (frontendPlugin) where
 
 import GHC.Paths
+#if MIN_VERSION_ghc(9,0,2)
 import GHC.Plugins
+#else
+import GhcPlugins
+#endif
 import Control.Monad
 import System.IO
 import System.IO.Temp
