@@ -1,0 +1,45 @@
+name: CI
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        ghc: [9.0.2, 9.2.2]
+        cabal: [3.6.2.0]
+        experimental: [false]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install GHC and Cabal
+        uses: haskell/actions/setup@v1
+        with:
+          ghc-version: ${{ matrix.ghc }}
+          cabal-version: ${{ matrix.cabal }}
+      - name: Install
+        env:
+          GHCVER: ${{ matrix.ghc }}
+          CABALVER: ${{ matrix.cabal }}
+        run: |
+          set -e
+          cabal --version
+          echo "$(ghc --version) "`
+              `"[$(ghc --print-project-git-commit-id 2>/dev/null || echo '?')]"
+          if echo "$CABALVER" | grep -q '^3\.6'
+          then
+              cabal v2-update
+          else
+              cabal v1-update
+          fi
+          cabal v1-install --only-dependencies
+          cabal v1-configure
+          cabal v1-build
+          cabal v2-sdist --builddir=dist
+          SRC_TGZ=$(cabal info . | awk '{print $2; exit}').tar.gz &&
+              (cd dist/sdist && cabal v1-install --force-reinstalls "$SRC_TGZ")
+          set +e
+
