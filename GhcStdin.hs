@@ -15,17 +15,18 @@
 
 module GhcStdin (frontendPlugin) where
 
-import GHC.Paths
+import           GHC.Paths
 #if MIN_VERSION_ghc(9,0,2)
-import GHC.Plugins
+import           GHC.Plugins
 #else
-import GhcPlugins
+import           GhcPlugins
 #endif
-import Control.Monad
-import System.IO
-import System.IO.Temp
-import System.Process
-import System.Exit
+import           Control.Monad
+import qualified Data.ByteString as B
+import           System.IO
+import           System.IO.Temp
+import           System.Process
+import           System.Exit
 
 -- | Frontend plugin for GHC to compile source code from the standard input.
 --
@@ -73,8 +74,8 @@ compileCodeFromStdin :: FrontendPluginAction
 compileCodeFromStdin flags _ = liftIO $
     withTempDirectory "." "ghc-stdin" $ \dir ->
         withTempFile dir "ghc-stdin.hs" $ \src hsrc -> do
-            contents <- getContents
-            hPutStr hsrc contents >> hFlush hsrc
+            contents <- B.getContents
+            B.hPutStr hsrc contents >> hFlush hsrc
             (_, _, _, h) <- createProcess $ proc ghc $ src : wordsOfHead flags
             r <- waitForProcess h
             unless (r == ExitSuccess) $ exitWith r

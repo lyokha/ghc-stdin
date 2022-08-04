@@ -20,7 +20,7 @@ jobs:
         with:
           ghc-version: ${{ matrix.ghc }}
           cabal-version: ${{ matrix.cabal }}
-      - name: Install
+      - name: Install and test
         env:
           GHCVER: ${{ matrix.ghc }}
           CABALVER: ${{ matrix.cabal }}
@@ -41,5 +41,8 @@ jobs:
           cabal v2-sdist --builddir=dist
           SRC_TGZ=$(cabal info . | awk '{print $2; exit}').tar.gz &&
               (cd dist/sdist && cabal v1-install --force-reinstalls "$SRC_TGZ")
+          echo 'module Main where main = putStrLn "Ok"' |
+              ghc --frontend GhcStdin -ffrontend-opt="-o simple_ok"
+          test $(./simple_ok) = Ok
           set +e
 
