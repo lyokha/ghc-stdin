@@ -65,8 +65,10 @@ import           System.Exit
 --
 -- Internally, the plugin creates a temporary directory with a temporary source
 -- file inside it with the contents read from the standard input. Then it spawns
--- another GHC process to compile this file with options passed in
--- /-ffrontend-opt/.
+-- another GHC process to compile this file with the options passed in
+-- /-ffrontend-opt/. Note that the options get collected by 'words' without
+-- passing them to a shell preprocessor which means that it is not possible to
+-- escape spaces in their values with quotes or backslashes.
 frontendPlugin :: FrontendPlugin
 frontendPlugin = defaultFrontendPlugin { frontend = compileCodeFromStdin }
 
@@ -76,6 +78,8 @@ compileCodeFromStdin flags _ = liftIO $
         withTempFile dir "ghc-stdin.hs" $ \src hsrc -> do
             contents <- B.getContents
             B.hPutStr hsrc contents >> hFlush hsrc
+            -- FIXME: wordsOfHead won't hide spaces inside quotes correctly,
+            -- but using spaces does not seem to be an often case in GHC options
             (_, _, _, h) <- createProcess $ proc ghc $ src : wordsOfHead flags
             r <- waitForProcess h
             unless (r == ExitSuccess) $ exitWith r

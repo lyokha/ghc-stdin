@@ -1,13 +1,16 @@
 name:                  ghc-stdin
-version:               0.1.1.0
-license:               BSD3
-license-file:          LICENSE
-extra-source-files:    Changelog.md, README.md
-author:                Alexey Radkov
-maintainer:            alexey.radkov@gmail.com
+version:               0.1.1.1
 synopsis:              Compile source code from the standard input
 description:           A frontend plugin for GHC to compile source code from
                        the standard input.
+homepage:              http://github.com/lyokha/ghc-stdin
+license:               BSD3
+license-file:          LICENSE
+extra-source-files:    Changelog.md, README.md
+author:                Alexey Radkov <alexey.radkov@gmail.com>
+maintainer:            Alexey Radkov <alexey.radkov@gmail.com>
+stability:             experimental
+copyright:             2022 Alexey Radkov
 category:              Development
 bug-reports:           https://github.com/lyokha/ghc-stdin/issues
 build-type:            Simple
