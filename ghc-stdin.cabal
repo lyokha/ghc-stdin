@@ -1,5 +1,5 @@
 name:                  ghc-stdin
-version:               0.1.1.1
+version:               0.2.0.0
 synopsis:              Compile source code from the standard input
 description:           A frontend plugin for GHC to compile source code from
                        the standard input.
@@ -27,7 +27,8 @@ library
                        ghc-paths,
                        bytestring,
                        temporary,
-                       process
+                       process,
+                       safe
 
   exposed-modules:     GhcStdin
 

@@ -40,7 +40,5 @@ Linking ngx_healthcheck.so ...
 Internally, the plugin creates a temporary directory with a temporary source
 file inside it with the contents read from the standard input. Then it spawns
 another GHC process to compile this file with the options passed in
-*-ffrontend-opt*. Note that the options get collected by *words* without
-passing them to a shell preprocessor which means that it is not possible to
-escape spaces in their values with quotes or backslashes.
+*-ffrontend-opt*.
 
