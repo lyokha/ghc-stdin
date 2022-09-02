@@ -28,7 +28,7 @@ Another use case is collecting exported FFI C functions from a module and
 putting them in a new shared library.
 
 ```ShellSession
-$ export NGX_MODULE_PATH=/var/lib/nginx/x86_64-linux-ghc-9.2.3
+$ export NGX_MODULE_PATH=/var/lib/nginx/x86_64-linux-ghc-$(ghc --numeric-version)
 $ echo 'module NgxHealthcheck where import NgxExport.Healthcheck ()' | ghc --frontend GhcStdin -ffrontend-opt="-Wall -O2 -dynamic -shared -fPIC -flink-rts -threaded -L$NGX_MODULE_PATH -lngx_healthcheck_plugin -o ngx_healthcheck.so" 
 [1 of 1] Compiling NgxHealthcheck   ( ghc-stdin-74de48274545714b/ghc-stdin266454-0.hs, ghc-stdin-74de48274545714b/ghc-stdin266454-0.o )
 Linking ngx_healthcheck.so ...
