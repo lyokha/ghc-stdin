@@ -14,9 +14,9 @@ jobs:
         experimental: [false]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install GHC and Cabal
-        uses: haskell/actions/setup@v1
+        uses: haskell/actions/setup@v2
         with:
           ghc-version: ${{ matrix.ghc }}
           cabal-version: ${{ matrix.cabal }}
@@ -29,11 +29,11 @@ jobs:
           cabal --version
           echo "$(ghc --version) "`
               `"[$(ghc --print-project-git-commit-id 2>/dev/null || echo '?')]"
-          if echo "$CABALVER" | grep -q '^3\.6'
+          if echo "$CABALVER" | grep -q '^3\.[0-5]\.'
           then
-              cabal v2-update
-          else
               cabal v1-update
+          else
+              cabal v2-update
           fi
           cabal v1-install --only-dependencies
           cabal v1-configure

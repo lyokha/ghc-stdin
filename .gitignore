@@ -1,0 +1,11 @@
+*.hi
+*.o
+*.so
+*_stub.h
+.ghc.environment.*
+
+/dist/
+/dist-newstyle/
+
+tags
+
