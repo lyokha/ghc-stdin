@@ -9,8 +9,8 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        ghc: [8.4.4, 8.6.5, 8.8.4, 8.10.7, 9.0.2, 9.2.2]
-        cabal: [3.6.2.0]
+        ghc: [8.4.4, 8.6.5, 8.8.4, 8.10.7, 9.0.2, 9.2.5, 9.4.4]
+        cabal: [3.8.1.0]
         experimental: [false]
     steps:
       - name: Checkout

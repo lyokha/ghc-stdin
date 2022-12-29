@@ -32,7 +32,5 @@ library
 
   exposed-modules:     GhcStdin
 
-  default-extensions:  CPP
-
   ghc-options:        -Wall
 
