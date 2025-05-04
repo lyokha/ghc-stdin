@@ -42,3 +42,12 @@ file inside it with the contents read from the standard input. Then it spawns
 another GHC process to compile this file with the options passed in
 *-ffrontend-opt*.
 
+#### Installation of the plugin
+
+To use this frontend plugin with GHC, the built module must be registered as a
+known GHC package. The simplest way to do it is running
+
+```ShellSession
+$ cabal install --lib
+```
+

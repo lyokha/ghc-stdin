@@ -1,9 +1,7 @@
-{-# LANGUAGE CPP #-}
-
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  GhcStdin
--- Copyright   :  (c) Alexey Radkov 2022
+-- Copyright   :  (c) Alexey Radkov 2022-2025
 -- License     :  BSD-style
 --
 -- Maintainer  :  alexey.radkov@gmail.com
@@ -18,18 +16,13 @@
 module GhcStdin (frontendPlugin) where
 
 import           GHC.Paths
-#if MIN_VERSION_ghc(9,0,2)
 import           GHC.Plugins
-#else
-import           GhcPlugins
-#endif
 import           Control.Monad
 import qualified Data.ByteString as B
 import           System.IO
 import           System.IO.Temp
 import           System.Process
 import           System.Exit
-import           Safe
 
 -- | Frontend plugin for GHC to compile source code from the standard input.
 --
@@ -80,7 +73,7 @@ compileCodeFromStdin flags _ = liftIO $
             contents <- B.getContents
             B.hPutStr hsrc contents >> hFlush hsrc
             (_, _, _, h) <- createProcess $
-                shell $ q ghc ++ spc (q src) ++ spc (headDef "" flags)
+                shell $ q ghc ++ spc (q src) ++ spc (unwords flags)
             r <- waitForProcess h
             unless (r == ExitSuccess) $ exitWith r
     where q s = let q' = '\'' in q' : s ++ pure q'

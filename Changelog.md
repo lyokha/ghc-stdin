@@ -1,3 +1,8 @@
+### 0.2.1.0
+
+- Drop support for *ghc* older than *9.0.1*.
+- Drop dependency on package *safe*.
+
 ### 0.2.0.0
 
 - Using function *shell* to properly pass the plugin's options.
